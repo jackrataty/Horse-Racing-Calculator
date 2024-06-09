@@ -1,5 +1,11 @@
 # Horse-Racing-Calculator
-Using the Data Available in Horse Racing to Find Trends
+
+
+This project contains a Jupyter Notebook for calculating various metrics from horse racing data.
+
+
+
+My goal is to use the Data Available in Horse Racing to Find Trends
 
 
 I'm looking for other individuals like me who are just learning python and just learning how to navigate GitHub.
