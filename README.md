@@ -4,7 +4,7 @@ Using the Data Available in Horse Racing to Find Trends
 
 I'm looking for other individuals like me who are just learning python and just learning how to navigate GitHub.
 
-In the real world I'm a racehorse breeder, owner and trainer.  No I am not rich.  I'm a struggling artist just like a musician, or philosophy major.  You can buy a horse to race fairly inexpensively, but the upkeep of a horse is pretty expensive.  Several people own horses as pets, I just race mine.
+In the real world I'm a racehorse breeder, owner and trainer.  No I am not rich.  I'm a struggling artist just like a musician, a actor or philosophy major.  You can buy a horse to race fairly inexpensively, but the upkeep of a horse is pretty expensive.  Several people own horses as pets, I just race mine.
 
 That said, I'm recovering from a leg injury and have used my downtime to learn python and GitHub.  I love data and I love horseracing and I'd like to merge the two subjects together.
 
