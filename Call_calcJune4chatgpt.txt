@@ -1,0 +1,67 @@
+from bs4 import BeautifulSoup
+
+# Load the XML file
+file_path = 'downloaded_xml_files/1s_VTufIYSjiro60E2poRv4wqw0ECNOja.xml'
+with open(file_path, 'r') as file:
+    xml_data = file.read()
+
+# Parse the XML file using BeautifulSoup
+soup = BeautifulSoup(xml_data, 'xml')
+
+# Function to calculate split time
+def calculate_split(fraction_time, lengths_behind):
+    lengths_behind = float(lengths_behind) if lengths_behind else 0
+    split_time = float(fraction_time) + (lengths_behind * 2 / 5)
+    return round(split_time, 2)
+
+# Extract and print data
+for race in soup.find_all('RACE'):
+    race_number = race.get('NUMBER')
+    print(f"\nRace Number: {race_number}")
+
+    # Extract fractions
+    fractions = {
+        'Fraction 1': float(race.FRACTION_1.get_text()) if race.FRACTION_1 else None,
+        'Fraction 2': float(race.FRACTION_2.get_text()) if race.FRACTION_2 else None,
+        'Fraction 3': float(race.FRACTION_3.get_text()) if race.FRACTION_3 else None,
+        'Fraction 4': float(race.FRACTION_4.get_text()) if race.FRACTION_4 else None,
+        'Fraction 5': float(race.FRACTION_5.get_text()) if race.FRACTION_5 else None,
+        'Final': float(race.WIN_TIME.get_text()) if race.WIN_TIME else None
+    }
+
+    for key, value in fractions.items():
+        if value is not None:
+            print(f"{key}: {value}")
+
+    # Extract horse entries and their positions at each call
+    for entry in race.find_all('ENTRY'):
+        horse_name = entry.find('NAME').get_text()
+        print(f"\nHorse Name: {horse_name}")
+
+        # Extract positions and lengths behind at each call
+        for call in entry.find_all('POINT_OF_CALL'):
+            call_which = call.get('WHICH')
+            position = call.find('POSITION').get_text() if call.find('POSITION') else None
+            lengths = call.find('LENGTHS').get_text() if call.find('LENGTHS') else None
+            if lengths:
+                lengths = float(lengths)
+            else:
+                lengths = 0
+            fraction_time = fractions.get(f'Fraction {call_which}', None)
+            if fraction_time is not None:
+                split_time = calculate_split(fraction_time, lengths)
+                print(f"  Call {call_which}: Position = {position}, Lengths Behind = {lengths}, Split Time = {split_time}")
+
+        # Handle the "Final" call
+        final_call = entry.find('POINT_OF_CALL', {"WHICH": "FINAL"})
+        if final_call:
+            position = final_call.find('POSITION').get_text() if final_call.find('POSITION') else None
+            lengths = final_call.find('LENGTHS').get_text() if final_call.find('LENGTHS') else None
+            if lengths:
+                lengths = float(lengths)
+            else:
+                lengths = 0
+            fraction_time = fractions.get('Final')
+            if fraction_time is not None:
+                split_time = calculate_split(fraction_time, lengths)
+                print(f"  Final: Position = {position}, Lengths Behind = {lengths}, Split Time = {split_time}")
